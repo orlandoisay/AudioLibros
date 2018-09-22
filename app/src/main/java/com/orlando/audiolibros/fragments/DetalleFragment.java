@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.orlando.audiolibros.Aplicacion;
 import com.orlando.audiolibros.Libro;
@@ -63,6 +64,7 @@ public class DetalleFragment extends Fragment implements View.OnTouchListener,
             mediaPlayer.prepareAsync();
         } catch (IOException e) {
             Log.e("AudioLibros", "ERROR: No se puede reproducir " + audio, e);
+            Toast.makeText(getActivity(),"ERROR", Toast.LENGTH_SHORT);
         }
     }
 
@@ -70,14 +72,12 @@ public class DetalleFragment extends Fragment implements View.OnTouchListener,
         ponInfoLibro(id, getView());
     }
 
-    @SuppressLint("ResourceType")
     @Override
     public void onPrepared(MediaPlayer mp) {
         Log.d("AudioLibros", "Entramos en onPrepared");
         mediaPlayer.start();
         mediaController.setMediaPlayer(this);
-
-        mediaController.setAnchorView(getView().findViewById(R.layout.fragment_detalle));
+        mediaController.setAnchorView(getView());
         mediaController.setEnabled(true);
         mediaController.show();
     }

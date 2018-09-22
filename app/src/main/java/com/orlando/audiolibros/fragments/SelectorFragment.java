@@ -8,10 +8,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -45,6 +49,8 @@ public class SelectorFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+
         View view = inflater.inflate(R.layout.fragment_selector, container, false);
 
         recyclerView = view.findViewById(R.id.recycler_view);
@@ -78,10 +84,19 @@ public class SelectorFragment extends Fragment {
                                 startActivity(Intent.createChooser(i, "Compartir"));
                                 break;
                             case 1:
-                                vectorLibros.remove(id);
-                                adaptadorLibros.notifyDataSetChanged();
+                                Snackbar.make(v, "¿Estas seguro?", Snackbar.LENGTH_LONG)
+                                        .setAction("SI", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                vectorLibros.remove(id);
+                                                adaptadorLibros.notifyDataSetChanged();
+                                            }
+                                        })
+                                        .show();
                                 break;
                             case 2:
+                                Snackbar.make(v, "Libro insertado", Snackbar.LENGTH_INDEFINITE)
+                                        .show();
                                 vectorLibros.add(vectorLibros.elementAt(id));
                                 adaptadorLibros.notifyDataSetChanged();
                                 break;
@@ -100,4 +115,21 @@ public class SelectorFragment extends Fragment {
     }
 
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_selector, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.menu_ultimo) {
+            ((MainActivity)activity).irUltimoVisitado();
+            return true;
+        } else if(id == R.id.menu_buscar) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
