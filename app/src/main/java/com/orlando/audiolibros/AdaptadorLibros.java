@@ -16,7 +16,9 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
     private LayoutInflater inflater;
     protected Vector<Libro> vectorLibros;
     private Context context;
+
     private View.OnClickListener onClickListener;
+    private View.OnLongClickListener onLongClickListener;
 
 
     public AdaptadorLibros(Context context, Vector<Libro> vectorLibros) {
@@ -30,11 +32,16 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
         this.onClickListener = onClickListener;
     }
 
+    public void setOnItemLongClickListener(View.OnLongClickListener onLongClickListener) {
+        this.onLongClickListener = onLongClickListener;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.elemento_selector, null);
         view.setOnClickListener(onClickListener);
+        view.setOnLongClickListener(onLongClickListener);
         return new ViewHolder(view);
     }
 
