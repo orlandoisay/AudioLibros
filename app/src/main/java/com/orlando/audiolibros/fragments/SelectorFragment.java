@@ -138,4 +138,10 @@ public class SelectorFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onResume() {
+        ((MainActivity)getActivity()).mostrarElementos(true);
+        super.onResume();
+    }
 }

@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.orlando.audiolibros.Aplicacion;
 import com.orlando.audiolibros.Libro;
+import com.orlando.audiolibros.MainActivity;
 import com.orlando.audiolibros.R;
 
 import java.io.IOException;
@@ -159,5 +160,18 @@ public class DetalleFragment extends Fragment implements View.OnTouchListener,
     @Override
     public int getAudioSessionId() {
         return 0;
+    }
+
+
+    @Override
+    public void onResume() {
+        DetalleFragment fragment =
+                (DetalleFragment)getFragmentManager()
+                        .findFragmentById(R.id.detalle_fragment);
+
+        if (fragment == null) {
+            ((MainActivity)getActivity()).mostrarElementos(false);
+        }
+        super.onResume();
     }
 }
