@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.orlando.audiolibros.AdaptadorLibros;
+import com.orlando.audiolibros.AdaptadorLibrosFiltro;
 import com.orlando.audiolibros.Aplicacion;
 import com.orlando.audiolibros.Libro;
 import com.orlando.audiolibros.MainActivity;
@@ -32,7 +33,7 @@ public class SelectorFragment extends Fragment {
 
     private Activity activity;
     private RecyclerView recyclerView;
-    private AdaptadorLibros adaptadorLibros;
+    private AdaptadorLibrosFiltro adaptadorLibros;
     private Vector<Libro> vectorLibros;
 
     @Override
@@ -60,7 +61,9 @@ public class SelectorFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                ((MainActivity) activity).mostrarDetalle(recyclerView.getChildAdapterPosition(v));
+                ((MainActivity) activity)
+                        .mostrarDetalle((int)adaptadorLibros
+                                .getItemId(recyclerView.getChildAdapterPosition(v)));
             }
         });
 
@@ -88,7 +91,8 @@ public class SelectorFragment extends Fragment {
                                         .setAction("SI", new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                vectorLibros.remove(id);
+//                                                vectorLibros.remove(id);
+                                                adaptadorLibros.borrar(id);
                                                 adaptadorLibros.notifyDataSetChanged();
                                             }
                                         })
@@ -97,7 +101,9 @@ public class SelectorFragment extends Fragment {
                             case 2:
                                 Snackbar.make(v, "Libro insertado", Snackbar.LENGTH_INDEFINITE)
                                         .show();
-                                vectorLibros.add(vectorLibros.elementAt(id));
+//                                vectorLibros.add(vectorLibros.elementAt(id));
+                                int posicion = recyclerView.getChildLayoutPosition(v);
+                                adaptadorLibros.insertar((Libro)adaptadorLibros.getItem(posicion));
                                 adaptadorLibros.notifyDataSetChanged();
                                 break;
                         }

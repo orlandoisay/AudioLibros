@@ -3,6 +3,7 @@ package com.orlando.audiolibros;
 import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -48,6 +49,40 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        TabLayout tabs = findViewById(R.id.tabs);
+        tabs.addTab(tabs.newTab().setText("Todos"));
+        tabs.addTab(tabs.newTab().setText("Nuevos"));
+        tabs.addTab(tabs.newTab().setText("Leidos"));
+        tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                AdaptadorLibrosFiltro adaptador = ((Aplicacion)getApplication()).getAdaptador();
+                switch (tab.getPosition()) {
+                    case 0:
+                        adaptador.setNovedad(false);
+                        adaptador.setLeido(false);
+                        break;
+                    case 1:
+                        adaptador.setNovedad(true);
+                        adaptador.setLeido(false);
+                        break;
+                    case 2:
+                        adaptador.setNovedad(false);
+                        adaptador.setLeido(true);
+                        break;
+                }
+                adaptador.notifyDataSetChanged();
+            }
+
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) { }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) { }
+        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

@@ -7,16 +7,16 @@ import java.util.Vector;
 public class Aplicacion extends Application {
 
     private Vector<Libro> vectoLibros;
-    private AdaptadorLibros adaptador;
+    private AdaptadorLibrosFiltro adaptador;
 
     @Override
     public void onCreate() {
         super.onCreate();
         vectoLibros = Libro.ejemploLibros();
-        adaptador = new AdaptadorLibros(this, vectoLibros);
+        adaptador = new AdaptadorLibrosFiltro(this, vectoLibros);
     }
 
-    public AdaptadorLibros getAdaptador() {
+    public AdaptadorLibrosFiltro getAdaptador() {
         return adaptador;
     }
 
